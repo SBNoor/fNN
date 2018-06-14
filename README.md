@@ -1,5 +1,5 @@
 # fNN
-fNN is a command line tool for predicting secondary structure of proteins using their primary sequence (in FASTA format).
+fNN is a command line tool for predicting secondary structure of proteins using their primary sequence, multiple sequence alignment data (in FASTA format), or position-speciﬁc scoring matrix (PSSM).
 
 ## System Speciﬁcations 
 For the tool to work properly, following packages are required:

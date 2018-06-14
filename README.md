@@ -31,7 +31,7 @@ to list all of the command-line options. If this command fails it means that som
 
 ## Structure Prediction
 
-In this section you will predict the secondary structure of a protein using its primary sequence. We will assume you have already followed the instructions from subsection 5.4.1 and 5.4.2 for downloading Python 3.6, Keras, Scikit-learn and fNN.
+In this section you will predict the secondary structure of a protein using its primary sequence. We will assume you have already followed the instructions for downloading Python 3.6, Keras, Scikit-learn and fNN.
 
 The following command will allow you to predict the secondary structure of a protein:
 

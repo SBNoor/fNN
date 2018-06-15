@@ -27,35 +27,10 @@ from sklearn.metrics import confusion_matrix
 import jnn
 import os
 import jsnn
-import snn
+import parse
 import mnn
+import snn
 
-
-
-"""
-def Main():
-    
-    #lst = ['--h','--j','--s','--js','--m']
-    
-    parser = argparse.ArgumentParser(add_help=True)
-    
-    parser.add_argument('--file', type=argparse.FileType('a'),
-                   help='Filename to write cuts to')
-    parser.add_argument('-a', action="store_true", default=False)
-    parser.add_argument('-b', action="store", dest="b")
-    parser.add_argument('-c', action="store", dest="c", type=int)
-    
-    print('print_usage output:')
-    parser.print_usage()
-    print()
-    
-    print('print_help output:')
-    parser.print_help()
-
-
-    if parser.file:
-        print("reading file")
-"""
 def check(content):
     flag = 0
     for i in range(len(content)):

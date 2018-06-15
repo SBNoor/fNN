@@ -57,10 +57,10 @@ def reading_pssm_files(path_pssm):
     
     return pssm,file_lst
 
-def reading_predictions(path_predictions):
+def reading_predictions(path_predictions, filename):
     file_lst_predictions = []
     prediction = []
-    with open('psipred.txt','r') as f:
+    with open(filename,'r') as f:
         content = f.readlines()
         content = [i.replace('\n','') for i in content]
         for line in content:
@@ -138,13 +138,10 @@ def the_nn(X, Y, val_split, epochs, batch_size, node1, node2, reg, opti, filter1
     model.compile(loss='categorical_crossentropy', optimizer=opti, metrics=['accuracy'])
 
     history = model.fit(X, Y, validation_split = val_split, epochs = epochs, batch_size = batch_size)
+    return model, history, output
 
-    return model, history
-
-    
 def sNN(pssm_pred):
     path = os.getcwd()
-
     
     ### TRAINING
     Y_strings,file_lst_predictions = reading_predictions(path)
@@ -157,8 +154,7 @@ def sNN(pssm_pred):
     windows = create_window_data(pssm_final, 21)
     Y, dictionary = getting_output(Y_strings)
     X = windows.reshape(windows.shape[0], windows.shape[1], windows.shape[2], 1)
-    
-
+            
     model, history = the_nn(X, Y, 0.2, 100, 1000, 96, 
                                     10, regularizers.l1(0.01), "adam", (5, 5), (2, 2))
     

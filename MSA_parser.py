@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Mar 21 09:33:00 2018
-
-@author: Noor
+Created by Bakhtawar Noor and Judit Kisistók
+Aarhus University, 2018
 """
 
 import glob,os

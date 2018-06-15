@@ -7,6 +7,7 @@ Created on Mon Feb 26 15:55:34 2018
 """
 
 import glob,os
+import numpy as np
 
 def parse_file(path):
     splitX = []
@@ -32,21 +33,35 @@ def parse_file(path):
     assert len(splitX) == len(splitY)
     return splitX,splitY,file
 
-def parse_msa_file(content):
-    string = ""
-    for line in content:
-        if line[0] == '>':
-            string += '<'
-        else:
-            line = line.replace('-','.')
-            string += line.rstrip()
+def reading_pssm_files(content):
+    pssm = []
+    file_lst = []
+
+    #with open(data_file, 'r') as f:
+    #content = f.readlines()
+    content = content[3:len(content)-5]
+    table = np.zeros(shape = (len(content)-1,20),dtype = int)
+    result = [i.replace('\n','') for i in content]
+    result = [i.lstrip() for i in result]
+    result = result[:len(result)-1]
+
+    counter = 0
+    for i in range(len(result)):
+        res = result[i].split(" ")
+        res[:] = [item for item in res if item != '']
+        res = res[2:22]
+        for i in range(len(res)):
+            table[counter][i] = res[i]
+        counter += 1
+            
+            
+    pssm.append(table)
     
-    X = list(string.split('<'))
-    #print(X)
-                
-    res = []
-    res.append(X[1:])            
-    return res
+    file_lst.append('user_input')
+            
+    assert len(pssm) == len(file_lst)
+    
+    return pssm
             
 
 if __name__=="__main__":

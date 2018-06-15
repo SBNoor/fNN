@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri May 25 22:47:42 2018
-
-@author: Noor
+Created by Bakhtawar Noor and Judit Kisistók
+Aarhus University, 2018
 """
 
 import argparse
@@ -25,10 +24,12 @@ from keras import regularizers
 from keras.layers import Dropout
 from numpy import array
 from sklearn.metrics import confusion_matrix
-import jens_FINAL
+import jnn
 import os
-import msa_jens
+import jsnn
 import parse
+import mnn
+import snn
 
 
 
@@ -76,6 +77,8 @@ def main():
     #parser.add_argument('file_msa', type=argparse.FileType('r'))
     parser.add_argument('--jNN','-j',help='Runs simple NN')
     parser.add_argument('--msa','-js',help = "Runs NN based on majority vote")
+    parser.add_argument('--mNN','-m',help = "Runs cascaded NN")
+    parser.add_argument('--sNN','-s',help = "Runs convolutional NN")
     parser.add_argument("--output", "-o", help="Output the result to a file", action="store_true")
     
     args = parser.parse_args()
@@ -105,7 +108,7 @@ def main():
     
 
     if args.jNN: 
-        cm = jens_FINAL.jNN(file)
+        cm = jnn.jNN(file)
         c = cm.replace(" ", "C")
     
             
@@ -119,8 +122,33 @@ def main():
             print((c))
         
     elif args.msa:
-        #X = parse.parse_msa_file(f)
-        cm = msa_jens.jNN_msa(file)
+        cm = jsnn.jNN_msa(file)
+        c = cm.replace(" ","C")
+        
+        if args.output:
+            f = open("Prediction.txt","a")
+            f.write(">prediction")
+            f.write(str(c) + '\n')
+            f.close()
+        else:
+            print("Prediction : ")
+            print(c)
+            
+    elif args.mNN:
+        cm = mnn.mNN(file)
+        c = cm.replace(" ","C")
+        
+        if args.output:
+            f = open("Prediction.txt","a")
+            f.write(">prediction")
+            f.write(str(c) + '\n')
+            f.close()
+        else:
+            print("Prediction : ")
+            print(c)
+            
+    elif args.sNN:
+        cm = snn.sNN(file)
         c = cm.replace(" ","C")
         
         if args.output:
@@ -134,7 +162,7 @@ def main():
     
     else:
         if flag == 1:
-            cm = jens_FINAL.jNN(file)
+            cm = jnn.jNN(file)
             c = cm.replace(" ", "C")
         
                 
@@ -147,7 +175,7 @@ def main():
                 print("Prediction : ")
                 print((c))
         elif flag > 1:
-                    cm = msa_jens.jNN_msa(file)
+                    cm = mnn.jNN_msa(file)
         c = cm.replace(" ","C")
         
         if args.output:

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created by Bakhtawar Noor and Judit Kisistók
-Aarhus University, 2018
+Created on Mon Mar 12 11:56:45 2018
+
+@author: Noor
 """
 
 # import tensorflow as tf
@@ -114,7 +115,6 @@ def build_mlp(class_weight, train_data,input_data,output_data,model, num_nodes =
     model.add(Dense(5, activation='softmax'))
     
     model.compile(loss='categorical_crossentropy', optimizer=optimizer,metrics=['accuracy']) 
-
     history = model.fit(input_data, output_data, validation_split = 0.2, epochs =70, batch_size = batch_size,class_weight = class_weight)
     return model,history
 
@@ -178,4 +178,6 @@ def jNN_msa(X):
         INV_LABELS[LABELS[key]] = key
     prediction = ''.join([INV_LABELS[np.argmax(output[i])+1] for i in range(output.shape[0])])
 
+    #pred = list(prediction)
     return prediction
+    

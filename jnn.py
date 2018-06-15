@@ -220,7 +220,7 @@ def jNN(f):
     output,history = the_nn(f,X, Y, num_nodes = 110, num_layers = 2, 
                  activation = 'relu', ouput_activation = 'softmax',
                  batch_size = 50, epochs = 50, classweight = classweight,
-                 validation_split = 0.2, optimizer = "adam", kernel_regularizer = regularizers.l2(0.01))
+                 validation_split = 0.2, optimizer = "adam", kernel_regularizer = regularizers.l1(0.01))
     
     INV_LABELS = {}
     for key in LABELS.keys():

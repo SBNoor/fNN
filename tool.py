@@ -31,32 +31,6 @@ import parse
 import mnn
 import snn
 
-
-
-"""
-def Main():
-    
-    #lst = ['--h','--j','--s','--js','--m']
-    
-    parser = argparse.ArgumentParser(add_help=True)
-    
-    parser.add_argument('--file', type=argparse.FileType('a'),
-                   help='Filename to write cuts to')
-    parser.add_argument('-a', action="store_true", default=False)
-    parser.add_argument('-b', action="store", dest="b")
-    parser.add_argument('-c', action="store", dest="c", type=int)
-    
-    print('print_usage output:')
-    parser.print_usage()
-    print()
-    
-    print('print_help output:')
-    parser.print_help()
-
-
-    if parser.file:
-        print("reading file")
-"""
 def check(content):
     flag = 0
     for i in range(len(content)):
@@ -102,10 +76,10 @@ def main():
                 file = parse.parse_msa_file(content)
                 print(file)
             else:
-                print("pssm")
+                pssm = parse.reading_pssm_files(content)
         
 
-    
+
 
     if args.jNN: 
         cm = jnn.jNN(file)
@@ -148,7 +122,7 @@ def main():
             print(c)
             
     elif args.sNN:
-        cm = snn.sNN(file)
+        cm = snn.sNN(pssm)
         c = cm.replace(" ","C")
         
         if args.output:
@@ -175,17 +149,17 @@ def main():
                 print("Prediction : ")
                 print((c))
         elif flag > 1:
-                    cm = mnn.jNN_msa(file)
-        c = cm.replace(" ","C")
+            cm = jsnn.jNN_msa(file)
+            c = cm.replace(" ","C")
         
-        if args.output:
-            f = open("Prediction.txt","a")
-            f.write(">prediction")
-            f.write(str(c) + '\n')
-            f.close()
-        else:
-            print("Prediction : ")
-            print(c)
+            if args.output:
+                f = open("Prediction.txt","a")
+                f.write(">prediction")
+                f.write(str(c) + '\n')
+                f.close()
+            else:
+                print("Prediction : ")
+                print(c)
     
     
         

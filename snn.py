@@ -138,64 +138,37 @@ def the_nn(X, Y, val_split, epochs, batch_size, node1, node2, reg, opti, filter1
     model.compile(loss='categorical_crossentropy', optimizer=opti, metrics=['accuracy'])
 
     history = model.fit(X, Y, validation_split = val_split, epochs = epochs, batch_size = batch_size)
-
     return model, history, output
 
-def baseline_model():
-    model = Sequential() 
-    model.add(Conv2D(96, (5, 5), input_shape=(X.shape[1], X.shape[2], 1), padding='same', activation='relu',
-                     kernel_regularizer=regularizers.l1(0.01)))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Conv2D(10, (2, 2), activation='relu', padding='same',
-                     kernel_regularizer=regularizers.l1(0.01)))
-    model.add(Flatten())
-    model.add(Dense(Y.shape[1], activation='softmax'))
-
-    model.compile(loss='categorical_crossentropy', optimizer="adam", metrics=['accuracy'])
-    
-    return model
-
-
-    
-def sNN(X):
+def sNN(pssm_pred):
     path = os.getcwd()
-    path = os.path.join(path,"pssm")
-    path_1 = os.chdir(path)
     
     ### TRAINING
-    pssm,file_lst = reading_pssm_files(path)
-    Y_strings,file_lst_predictions = reading_predictions(path, "psipred.txt")
+    Y_strings,file_lst_predictions = reading_predictions(path)
+    
+    path = os.path.join(path,"pssm")
+    path_1 = os.chdir(path)
+    pssm,file_lst = reading_pssm_files(path_1)
+
     pssm_final,file_lst_final = filtering_files(pssm,file_lst,Y_strings,file_lst_predictions)
     windows = create_window_data(pssm_final, 21)
     Y, dictionary = getting_output(Y_strings)
     X = windows.reshape(windows.shape[0], windows.shape[1], windows.shape[2], 1)
-    
-    Y_test,file_lst_test = reading_predictions(path_1, X)
-    
-    pssm_test = []
-    file_lst_test2 = []
-    for i in range(len(file_lst_test)):
-        for j in range(len(file_lst)):
-            if file_lst_test[i] in file_lst[j]:
-                file_lst_test2.append(file_lst[j])
-                pssm_test.append(pssm[j])
-    
-        pssm_test = np.transpose(np.vstack(pssm_test))
-        windows_test = create_window_data(pssm_test, 21)
-        Yt, dictionary2 = getting_output(Y_test)
-        Xt = windows_test.reshape(windows_test.shape[0], windows_test.shape[1], windows_test.shape[2], 1)
+            
+    model, history = the_nn(X, Y, 0.2, 100, 1000, 96, 
+                                    10, regularizers.l1(0.01), "adam", (5, 5), (2, 2))
     
     
-        model, history = the_nn(X, Y, 0.2, 1, 1000, 96, 
-                                    10, regularizers.l1(0.01), "adam", (5, 5), (2, 2), Xt)
-    
-    
-        output= model.predict(Xt)
+    ###Predicting
+    pssm_transposed = np.transpose(np.vstack(pssm_pred))
+    windows_1 = create_window_data(pssm_transposed, 21)
+    X_pred = windows_1.reshape(windows_1.shape[0], windows_1.shape[1], windows_1.shape[2], 1)
+    output = model.predict(X_pred)
+
         
-        INV_LABELS = {}
-        for key in LABELS.keys():
-            INV_LABELS[LABELS[key]] = key
-        prediction = ''.join([INV_LABELS[np.argmax(output[i])+1] for i in range(output.shape[0])])
-        print("prediction : ",prediction)
+    INV_LABELS = {}
+    for key in LABELS.keys():
+        INV_LABELS[LABELS[key]] = key
+    prediction = ''.join([INV_LABELS[np.argmax(output[i])+1] for i in range(output.shape[0])])
     
     return prediction

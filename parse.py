@@ -8,6 +8,7 @@ Aarhus University, 2018
 import glob,os
 import numpy as np
 
+
 def parse_file(path):
     splitX = []
     splitY = []
@@ -32,12 +33,26 @@ def parse_file(path):
     assert len(splitX) == len(splitY)
     return splitX,splitY,file
 
+def parse_msa_file(content):
+    string = ""
+    for line in content:
+        if line[0] == '>':
+            string += '<'
+        else:
+            line = line.replace('-','.')
+            string += line.rstrip()
+    
+    X = list(string.split('<'))
+    #print(X)
+                
+    res = []
+    res.append(X[1:])            
+    return res
+
 def reading_pssm_files(content):
     pssm = []
     file_lst = []
 
-    #with open(data_file, 'r') as f:
-    #content = f.readlines()
     content = content[3:len(content)-5]
     table = np.zeros(shape = (len(content)-1,20),dtype = int)
     result = [i.replace('\n','') for i in content]
@@ -61,12 +76,4 @@ def reading_pssm_files(content):
     assert len(pssm) == len(file_lst)
     
     return pssm
-            
-
-if __name__=="__main__":
-    #path = os.getcwd()
-    #path = os.chdir('/Volumes/Noor/Aarhus University/Semester 4/code/DATA')
-    #X_strings, Y_strings, file = parse_file(path)
-    path = os.chdir('/Volumes/Noor/Aarhus University/Semester 4/tool')
-    X = parse_msa_file(path)
     

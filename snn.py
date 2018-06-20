@@ -31,7 +31,6 @@ def reading_pssm_files(path_pssm):
     pssm = []
     file_lst = []
     for data_file in glob.glob("*.pssm"):
-        #print(data_file)
         file_lst.append(data_file)
         with open(data_file, 'r') as f:
             content = f.readlines()
@@ -57,10 +56,10 @@ def reading_pssm_files(path_pssm):
     
     return pssm,file_lst
 
-def reading_predictions(path_predictions, filename):
+def reading_predictions(path_predictions):
     file_lst_predictions = []
     prediction = []
-    with open(filename,'r') as f:
+    with open('psipred.txt','r') as f:
         content = f.readlines()
         content = [i.replace('\n','') for i in content]
         for line in content:
@@ -68,9 +67,7 @@ def reading_predictions(path_predictions, filename):
                 file_lst_predictions.append(line[1:])
             else:
                 prediction.append(line)
-    
-    #assert len(file_lst_predictions) == len(prediction)
-    
+        
     return prediction,file_lst_predictions
         
 def filtering_files(pssm,file_lst,Y_strings,file_lst_predictions):
@@ -81,18 +78,10 @@ def filtering_files(pssm,file_lst,Y_strings,file_lst_predictions):
             if file_lst_predictions[i] in file_lst[j]:
                 file_lst_final.append(file_lst[j])
                 pssm_final.append(pssm[j])
-    
-    #assert len(pssm_final) == len(Y_strings)
-    #assert len(file_lst_predictions) == len(file_lst_final)
-    
+        
     return np.transpose(np.vstack(pssm_final)),file_lst_final   
 
-"""
-wtf = []
-for i in range(len(file_lst)):
-    if "HUMAN" in file_lst[i]:
-        wtf.append(file_lst[i])
-"""       
+      
 def create_window_data(final_pssm, win_size):
     window_data = []
     j = win_size
@@ -128,11 +117,9 @@ def the_nn(X, Y, val_split, epochs, batch_size, node1, node2, reg, opti, filter1
     model.add(Conv2D(node1, filter1, input_shape=(X.shape[1], X.shape[2], 1), padding='same', activation='relu',
                      kernel_regularizer=reg))
     model.add(MaxPooling2D(pool_size=(2, 2)))
-    #model.add(Dropout(0.2))
     model.add(Conv2D(node2, filter2, activation='relu', padding='same',
                      kernel_regularizer=reg))
     model.add(Flatten())
-    #model.add(Dropout(0.2))
     model.add(Dense(Y.shape[1], activation='softmax'))
 
     model.compile(loss='categorical_crossentropy', optimizer=opti, metrics=['accuracy'])

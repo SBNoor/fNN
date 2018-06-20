@@ -20,9 +20,3 @@ def replace_all(Y_strings):
     
     assert len(Y_strings) == len(Y_string)
     return Y_string
-
-if __name__=="__main__":
-    path = os.chdir('/Volumes/Noor/Aarhus University/Semester 4/code/DATA')
-    X_strings, Y_strings, file = parse.parse_file(path)
-    Y_strings = replace_all(Y_strings)
-    

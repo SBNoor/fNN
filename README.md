@@ -1,9 +1,9 @@
 # fNN
 
-fNN is a command line tool for predicting secondary structure of proteins using their primary sequence, multiple sequence alignment data (in FASTA format), or position-specific scoring matrix (PSSM).
+fNN is a command line tool for predicting the secondary structure of proteins using their primary sequence, multiple sequence alignment data (in FASTA format), or position-specific scoring matrix (PSSM).
 
 ## System Speciﬁcations 
-For the tool to work properly, following packages are required:
+For the tool to work properly, the following packages are required:
 
 • Python 3.6 : https://anaconda.org/anaconda/python
 
@@ -37,7 +37,7 @@ In this section you will predict the secondary structure of a protein using its 
 The following command will allow you to predict the secondary structure of a protein:
 
 ```
-python tool.py <file _ name>.fasta
+python tool.py <file_name>.fasta
 ```
 
 Protein structure prediction will take approximately 12 minutes if a single FASTA sequence is given as an input and will take approximately 27 minutes if the input is a multiple sequence alignment. The time is mostly spent on training the neural network.
@@ -46,10 +46,10 @@ You can also specify which neural network you want to give your data to. In that
 
 **-j JNN** 
 
-This ﬂag will run the neural network described by Qian and Sejnowski, which is a simple one hidden layer feed-forward neural network that requires a single sequence as an input. This neural network will run by default if you provide a single fasta sequence even without the above mentioned ﬂag. The command is :
+This ﬂag will run the neural network described by Qian and Sejnowski, which is a simple one hidden layer feed-forward neural network that requires a single sequence as an input. This neural network will run by default if you provide a single fasta sequence even without the above mentioned ﬂag. The command is:
 
 ```
-python tool.py -j JNN <file _ name>.fasta
+python tool.py -j JNN <file_name>.fasta
 ```
 
 **-js MSA** 
@@ -57,7 +57,7 @@ python tool.py -j JNN <file _ name>.fasta
 This ﬂag will run a standard feed-forward neural network that requires a single sequence as an input but that sequence is generated from a multiple sequence alignment by virtue of majority voting. This neural network is the one that will be used by default if a multiple sequence alignment is provided without a ﬂag. The command is: 
 
 ```
-python tool.py -js MSA <file _ name>.fasta
+python tool.py -js MSA <file_name>.fasta
 ```
 
 **-m mNN**
@@ -65,19 +65,19 @@ python tool.py -js MSA <file _ name>.fasta
 This ﬂag will predict the secondary structure using the network similar to the one explained by Rost and Sander. It is a cascaded neural network whereby the ﬁrst neural network is a sequence - to - structure network and the second one is a structure - to - structure neural network. The command is as follows:
 
 ```
-python tool.py -m mNN <file _ name>.fasta
+python tool.py -m mNN <file_name>.fasta
 ```
 
 **-s sNN**
 
-This ﬂag runs a convolutional neural network based on the approach of Liu and Chen. This neural network will run by default if the user enters a PSSM as an input. The command to be entered is:
+This ﬂag runs a convolutional neural network based on the approach of Liu and Cheng. This neural network will run by default if the user enters a PSSM as an input. The command to be entered is:
 
 ```
-python tool.py -s sNN <file _ name>.pssm
+python tool.py -s sNN <file_name>.pssm
 ```
 
 You can also have the prediction written to a text ﬁle using the -o ﬂag:
 
 ```
-python tool.py -o <file _ name>.fasta
+python tool.py -o <file_name>.fasta
 ```

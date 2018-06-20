@@ -98,28 +98,6 @@ def kmerify(input_data, output_data, win_size):
             labelY.append(output_data[i][j])
     return np.array(KmerX), labelY
 
-"""
-def the_nn():
-    num_nodes = 140
-    num_layers = 2
-    model = Sequential()
-    model.add(Dense(num_nodes, activation = 'relu', 
-                    input_shape = (X.shape[1], X.shape[2]),
-                    kernel_regularizer = None))
-    model.add(Flatten())
-    for l in range(num_layers-1):
-        model.add(Dense(num_nodes, activation = 'relu',
-                    kernel_regularizer = None))
-    model.add(Dense(len(Y[1]), activation='softmax',
-                    kernel_regularizer = None))
-    
-    model.compile(loss = 'categorical_crossentropy', 
-                  optimizer = 'sgd',
-                  metrics = ['accuracy'])
-    
-    return model
-    
-"""
 
 def the_nn(f,X, Y, num_nodes = 110, num_layers = 2, 
               activation = 'relu', ouput_activation = 'softmax',

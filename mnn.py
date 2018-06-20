@@ -238,7 +238,7 @@ def mNN(file):
     input_data1, output_data1 = data_shaping(sums1, Y_strings)
 
     X1 = input_data1
-    history, model, output_topass, output_topred = the_nn1(X, Y, 10, 200, 1, "adam", None, cw, X1)
+    history, model, output_topass, output_topred = the_nn1(X, Y, 10, 200, 200, "adam", None, cw, X1)
  
     ####### TRAINING DATA    
     second_window_data,table = create_window_data_for_second_network(output_topass,7)
@@ -250,7 +250,7 @@ def mNN(file):
 
     to_predict = input_second1
     
-    history2, model2 = the_nn2(input_second, Y, 100, 200, 1, "adam", None, cw)
+    history2, model2 = the_nn2(input_second, Y, 100, 200, 200, "adam", None, cw)
     output = model2.predict(to_predict)
     
     INV_LABELS = {}
